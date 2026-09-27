@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+# MC-CEA - keep non-public files off the web.
+#
+# The site folder is served directly, so without this the runbook (deploy/*.md),
+# the deploy scripts (deploy/*.sh, deploy/*.bat) and .gitignore would all be
+# downloadable as plain text - including internal hostnames, IPs and repo paths.
+#
+# Requires Apache AllowOverride (AuthConfig, or All) on this directory.
+# If overrides are off this file is silently ignored (it does not break the
+# site); put the same rules in the vhost instead - see deploy/readme.md.
+# ---------------------------------------------------------------------------
+
+# Documents, dumps, logs and shell helpers are never downloaded
+<FilesMatch "\.(md|sql|txt|log|ini|yml|yaml|lock|bak|swp|sh|bat|ps1|winscp)$">
+    Require all denied
+</FilesMatch>
+
+# Dotfiles (.gitignore, .gitattributes, ...)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
