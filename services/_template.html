@@ -3,89 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- TEMPLATE: copy this file, rename it (e.g. network-infrastructure.html) and edit the marked lines. -->
+<!-- TEMPLATE: copy this file, rename it (e.g. network-infrastructure.html) and edit the lines marked EDIT: -->
 <title>Service name — MC-CEA</title>
+
+<!-- fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- flat icons (font icons only - no inline SVG) -->
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<style>
-  :root {
-    --ksu-blue: #0084BD;
-    --ksu-blue-light: #00A3E0;
-    --ksu-cream-light: #F5F4EF;
-    --text-primary: #1a1a1a;
-    --text-secondary: #555;
-    --border-default: #eee;
-    --font-sans: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: var(--font-sans); color: var(--text-primary); line-height: 1.6; background: #fff; }
 
-  .ens-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 30px; position: sticky; top: 0; z-index: 100;
-    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-default);
-  }
-  .logo-lockup { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-  .logo-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
-  .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
-  .logo-text .main { font-size: clamp(22px, 2.4vw, 30px); font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; color: var(--text-primary); }
-  .logo-text .sub { font-size: clamp(12px, 1.15vw, 14px); color: #888; font-weight: 500; letter-spacing: 0.02em; margin-top: 3px; }
-  .back { font-size: 13px; font-weight: 500; color: var(--ksu-blue); text-decoration: none; }
-
-  .page { max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; }
-  .page-head { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-  .page-icon {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
-    background: rgba(0,132,189,0.08); color: var(--ksu-blue);
-  }
-  .page-icon i { font-size: 26px; line-height: 1; }
-  h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; line-height: 1.2; }
-  .lede { font-size: 17px; color: var(--text-secondary); margin-bottom: 28px; }
-  h2 { font-size: 20px; font-weight: 700; margin: 32px 0 12px; }
-  ul { padding-left: 22px; color: var(--text-secondary); }
-  li { margin-bottom: 6px; }
-
-  .card {
-    background: var(--ksu-cream-light); border: 1px solid var(--border-default);
-    border-radius: 14px; padding: 22px; margin-top: 28px;
-  }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 26px; border-radius: 10px; font-size: 15px; font-weight: 500;
-    text-decoration: none; background: var(--ksu-blue); color: #fff; margin-top: 16px;
-  }
-  .btn:hover { background: var(--ksu-blue-light); }
-  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--ksu-blue); outline-offset: 3px; border-radius: 10px; }
-  @media (max-width: 640px) {
-    .ens-header { padding: 12px 16px; }
-    .logo-img { width: 44px; height: 44px; }
-    .logo-text .main { font-size: 20px; }
-    .logo-text .sub { font-size: 11px; }
-    .page { padding: 36px 16px 64px; }
-  }
-</style>
+<!-- site styles -->
+<link rel="stylesheet" href="../css/service.css">
 </head>
 <body>
 
 <header class="ens-header">
   <a href="../index.html" class="logo-lockup">
-    <img src="../assets/ksumc-logo.png" alt="KSUMC Logo" class="logo-img">
+    <img src="../img/ksumc-logo.png" alt="KSUMC Logo" class="logo-img">
     <div class="logo-text">
       <span class="main">MC-CEA</span>
       <span class="sub">Medical City — Corporate Engineering Affairs</span>
     </div>
   </a>
-  <a href="../index.html#services" class="back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All services</a>
+  <a href="../index.html#services" class="back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>All services</a>
 </header>
 
 <main class="page">
   <div class="page-head">
-    <!-- EDIT: icon -->
+    <!-- EDIT: icon - any fa-solid class from fontawesome.com/icons -->
     <div class="page-icon"><i class="fa-solid fa-network-wired" aria-hidden="true"></i></div>
     <!-- EDIT: page title -->
     <h1>Service name</h1>
@@ -108,7 +56,7 @@
   <div class="card">
     <h2 style="margin-top:0">Need help with this service?</h2>
     <p>Contact the MC-CEA team and we will pick it up from there.</p>
-    <a class="btn" href="mailto:ens-support@ksumc.edu.sa"><i class="fa-solid fa-ticket" aria-hidden="true"></i> Open a ticket</a>
+    <a class="btn" href="mailto:ens-support@ksumc.edu.sa"><i class="fa-solid fa-ticket" aria-hidden="true"></i>Open a ticket</a>
   </div>
 </main>
 
