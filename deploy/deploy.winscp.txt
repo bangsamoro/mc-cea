@@ -1,10 +1,16 @@
-# WinSCP script - publish the MC-CEA static site from C to B (B-HOST).
+# WinSCP script — publish the MC-CEA portal from C to B.
 #
 # Run from C (deploy-mc-cea.bat does this for you):
 #   "C:\Program Files (x86)\WinSCP\WinSCP.com" /ini=nul ^
 #       /script="deploy\deploy.winscp.txt" /parameter // "C:\Users\DELL\MCCEA"
 #
-# %1% = the local folder to publish (the folder that contains index.html).
+# %1% = the local folder to publish (the one holding index.html).
+#
+# TARGET = B's docroot, so the portal *is* the site home page:
+#   http://B-HOST/
+# The same docroot also holds other applications in their own subfolders
+# (ifr/, tag/, phpmyadmin/). This script never deletes anything, so they are
+# untouched — it only writes the files listed at the bottom.
 
 option batch abort
 option confirm off
@@ -12,32 +18,27 @@ option transfer binary
 
 # --- connect --------------------------------------------------------------
 # Saved WinSCP session for B. Name it exactly "B" once in the WinSCP GUI
-# (New session -> SFTP, host B-HOST, port 22, your SSH user, save,
-# log in once so the host key is cached). Then this line just works.
+# (New session -> SFTP, host B-HOST, port 22, your SSH user, then Save as "B"
+# and log in once so the host key is cached). Then this line just works.
 open B
 
-# Explicit alternative - replace the "open B" line above with this one
+# Explicit alternative — replace the "open B" line above with this one
 # (connect once in the GUI first, or paste B's real fingerprint):
-# open sftp://root@B-HOST/ -hostkey="ssh-ed25519 256 xx:xx:..."
-
-# --- target folder --------------------------------------------------------
-# Created automatically the first time; harmless if it already exists.
-option batch continue
-mkdir /var/www/html/mc-cea
-option batch abort
+# open sftp://<user>@B-HOST/ -hostkey="ssh-ed25519 256 xx:xx:..."
 
 # --- push -----------------------------------------------------------------
-# Mirror %1% into the site folder on B; changed files are overwritten.
+# Mirror %1% into the docroot. It already exists, so there is no mkdir step.
 #
-# NOTE: "-delete" is deliberately NOT used. It would delete files on B that
-# are not in the local folder - you do not want that on a first deploy, and
-# there is nothing on B to prune yet. Add it if you later want the remote
-# folder to match the local one exactly:
+# NOTE: "-delete" is deliberately NOT used. It would remove files on B that
+# are not in the local folder — which at the docroot means the other
+# applications. Add it only if you know exactly what else lives there:
 #     synchronize remote -delete -criteria=time -- ...
 #
-# The filemask keeps dev-only material off the server:
-#   .git*, *.md, deploy/, preview/, assets/ (empty leftover), *.log
-#   ... no business on the web
-synchronize remote -criteria=time -- "%1%" "/var/www/html/mc-cea" -filemask="| .git/; .gitignore; .gitattributes; *.md; deploy/; preview/; assets/; *.log"
+# Filemask — what is NOT uploaded:
+#   .htaccess ..... the docroot may already have one, and ours would cascade
+#                   over ifr/ and tag/. Nothing sensitive is uploaded, so the
+#                   portal does not need it.
+#   .git*, *.md, deploy/, preview/, assets/, *.log ... dev-only material
+synchronize remote -criteria=time -- "%1%" "/var/www/html" -filemask="| .htaccess; .git/; .gitignore; .gitattributes; *.md; deploy/; preview/; assets/; *.log"
 
 exit

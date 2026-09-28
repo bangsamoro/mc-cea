@@ -3,13 +3,16 @@ REM ===================================================================
 REM  Publish MC-CEA   C  ->  B   over SFTP
 REM
 REM  Run this ON C (RDP in from A). It mirrors the site folder into
-REM  /var/www/html/mc-cea on B with WinSCP, so every later edit is a
-REM  single double-click.
+REM  B's DOCROOT so the portal becomes the site home page:
+REM      http://B-HOST/
 REM
 REM  Where is the site?  By default: the folder this script lives in,
 REM  i.e. <site>\deploy\deploy-mc-cea.bat  ->  <site>.  So it works
 REM  whatever the clone folder is called.  Override if you need to:
 REM      deploy-mc-cea.bat D:\sites\mc-cea
+REM
+REM  The docroot also holds ifr\, tag\ and phpmyadmin\. This script
+REM  never deletes, so those are untouched.
 REM ===================================================================
 
 set "WINSCP=C:\Program Files (x86)\WinSCP\WinSCP.com"
@@ -45,14 +48,14 @@ if exist "%SITE%\.git" (
 
 REM --- 2/2  SFTP the folder up to B -------------------------------------
 echo.
-echo === 2/2  WinSCP synchronize  -^>  B:/var/www/html/mc-cea ===
+echo === 2/2  WinSCP synchronize  -^>  B:/var/www/html  (docroot) ===
 "%WINSCP%" /ini=nul /log="%TEMP%\mc-cea-deploy.log" /script="%SITE%\deploy\deploy.winscp.txt" /parameter // "%SITE%"
 set RC=%ERRORLEVEL%
 
 echo.
 if "%RC%"=="0" (
-  echo Deploy OK  -^>  https://mc-cea.ksu.edu.sa/mc-cea/
-  echo Quick check from A:  http://B-HOST/mc-cea/
+  echo Deploy OK  -^>  http://B-HOST/
+  echo The portal is now B's home page. ifr\, tag\ and phpmyadmin\ untouched.
 ) else (
   echo [!] WinSCP exited with code %RC%  ^(log: %TEMP%\mc-cea-deploy.log^)
   echo     Usual cause: the saved session "B" does not exist yet, or the

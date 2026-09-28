@@ -4,6 +4,9 @@
 
 You are on the C box. Everything you need is in this folder.
 
+The portal replaces B's home page, so it lands in the docroot
+and goes live at   http://B-HOST/   (inside KSU only).
+
 --- one time only -----------------------------------------
 
 1. WinSCP must be installed (C:\Program Files (x86)\WinSCP\).
@@ -23,14 +26,14 @@ You are on the C box. Everything you need is in this folder.
 
 --- every deploy -------------------------------------------
 
+   git pull        (if this folder is a clone - it fetches the
+                    latest files from GitHub)
    Double-click:   deploy\deploy-mc-cea.bat
 
-   It uploads this folder to  /var/www/html/mc-cea  on B.
-   First run creates that folder.
-
-   Then check, from A:
-       http://B-HOST/mc-cea/
-       https://mc-cea.ksu.edu.sa/mc-cea/
+   It uploads this folder into B's docroot /var/www/html, which
+   replaces the old home page and adds css\, img\ and services\.
+   Nothing else in the docroot is deleted or touched - ifr\,
+   tag\ and phpmyadmin\ live there too and stay as they are.
 
 --- if something goes wrong ---------------------------------
 
@@ -43,9 +46,7 @@ You are on the C box. Everything you need is in this folder.
 --- what does NOT get uploaded ------------------------------
 
    deploy\   preview\   assets\   *.md   .git*   *.log
-
-   Only index.html, css\, img\ and services\ go up. .htaccess goes
-   up too - it is what stops Apache serving those skipped files
-   if they ever land on B.
+   .htaccess  (B may already have one at the docroot; ours
+               would affect ifr\ and tag\, so it is skipped)
 
 Full details: deploy\readme.md

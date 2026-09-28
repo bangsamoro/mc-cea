@@ -12,7 +12,7 @@ styles and images split out — **149 KB total**.
 | `index.html` | The page markup only (6.7 KB). No `<style>` block. |
 | `css/style.css` | All home-page styles. Re-skin the site from the `:root` tokens at the top. |
 | `css/service.css` | Styles for the service detail pages. |
-| `img/ksumc-logo.png` | Single shared copy of the KSUMC logo (640×640, was embedded 8× as base64). |
+| `img/ksumc-logo.png` | The MC-CEA services-portal badge (512×512, rebuilt as a clean transparent PNG). |
 | `services/_template.html` | Detail-page template — copy, rename, edit the marked lines. |
 | `services/*.html` | Not created yet — the six card links point here. |
 | `preview/desktop.png`, `preview/mobile.png` | Rendered screenshots (1440 px / 414 px). |
@@ -120,6 +120,8 @@ The template already uses correct relative paths (`../img/…`, `../css/service.
 - The **header lockup**, the **footer brand** and the **tab title** now all use the MC-CEA naming, so
   the old ENS branding is gone from the page chrome. Only the decorative background watermark still
   spells `ENS`.
+- The portal is published to B's **docroot**, so it replaces the old `WELCOME TO THE HOME OF ENS - CEA`
+  placeholder and lives beside `ifr/`, `tag/` and `phpmyadmin/`. The sync never deletes, so those are safe.
 - Icons + fonts load from CDNs (Font Awesome, Google Fonts). If the page must work on a host
   without internet, the icons degrade to blank boxes — tell me and I'll self-host them.
 - The faint background watermark still spells `ENS`; say the word and it becomes `MC-CEA`.
@@ -129,8 +131,8 @@ The template already uses correct relative paths (`../img/…`, `../css/service.
 ## Deploy — A → GitHub → C → B over SFTP
 
 **The workflow is A → GitHub → C → B:** A pushes to `bangsamoro/mc-cea`, C pulls,
-then C publishes. Publishing runs **on C** with WinSCP and mirrors the site folder into `/var/www/html/mc-cea` on B
-(live at <https://mc-cea.ksu.edu.sa/mc-cea/>). A cannot reach B or C on any file-transfer port
+then C publishes. Publishing runs **on C** with WinSCP and mirrors the site folder into B's **docroot** (`/var/www/html`) so the portal *is* the site home page
+(live at <https://mc-cea.ksu.edu.sa/>). A cannot reach B or C on any file-transfer port
 (B: 21/22/989/990 and C: 22 are all closed from A — only RDP 3389 to C is open), which is why this
 leg lives on C, exactly like the `tag` app. Code reaches C through GitHub - the repo is public,
 so C pulls anonymously - and the RDP copy of `mc-cea-site.zip` is only a fallback.
@@ -140,7 +142,7 @@ so C pulls anonymously - and the RDP copy of `mc-cea-site.zip` is only a fallbac
 | `deploy/deploy-mc-cea.bat` | Double-click on C — publishes the folder to B. |
 | `deploy/deploy.winscp.txt` | The WinSCP `synchronize remote` script the `.bat` calls. |
 | `deploy/readme.md` | Full runbook: one-time WinSCP session setup, every-deploy steps, filemask. |
-| `.htaccess` | Deny rules for `.md` / `.sh` / `.bat` / dotfiles. |
+| `.htaccess` | Deny rules for `.md` / `.sh` / `.bat` / dotfiles. Kept in the repo, but **not uploaded** to the docroot - it would cascade over `ifr/` and `tag/`. |
 
 `deploy/post-receive` is a leftover from an earlier git-relay attempt that was **stopped on request**;
 it is unused and the WinSCP filemask excludes it from the upload.

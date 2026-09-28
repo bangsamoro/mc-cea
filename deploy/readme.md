@@ -1,10 +1,10 @@
 # Deploy MC-CEA — A → GitHub → C → B
 
 **A** (dev, `C:\xampp\htdocs\cea`) → `git push` → **GitHub** (`bangsamoro/mc-cea`) →
-`git pull` → **C** (Windows, WinSCP) → **B** (`B-HOST`, Ubuntu/Apache, `/var/www/html/mc-cea`).
+`git pull` → **C** (Windows, WinSCP) → **B** (`B-HOST`, Ubuntu/Apache, `/var/www/html`).
 
-Live URL: **<https://mc-cea.ksu.edu.sa/mc-cea/>** (inside KSU only).
-LAN check: <http://B-HOST/mc-cea/>.
+Live URL: **<https://mc-cea.ksu.edu.sa/>** (inside KSU only).
+LAN check: <http://B-HOST/>.
 
 A **cannot** reach B or C except over RDP (verified: B ports 21/22/989/990 are closed from A, C port
 22 is closed), so the upload always runs **on C**. C is the only box with a route to B.
@@ -19,7 +19,7 @@ The site has **no build step** — publishing is just copying files.
 |---|---|---|
 | 1 | **A** | edit in `C:\xampp\htdocs\cea`, preview at <http://localhost/cea/>, then `git push origin main` |
 | 2 | **C** | `git pull origin main` in the clone (`C:\Users\DELL\MCCEA`) |
-| 3 | **C** | run `deploy\deploy-mc-cea.bat` → WinSCP mirrors the folder into `/var/www/html/mc-cea` on B |
+| 3 | **C** | run `deploy\deploy-mc-cea.bat` → WinSCP mirrors the folder into B's **docroot** (`/var/www/html`), which replaces the old home page |
 
 Steps 2 and 3 are what `deploy-mc-cea.bat` does in one double-click.
 
@@ -41,7 +41,7 @@ Steps 2 and 3 are what `deploy-mc-cea.bat` does in one double-click.
    *(Fallback, if C ever loses GitHub access: copy `mc-cea-site.zip` from A over RDP and
    extract it into the same folder. The `.bat` then simply skips the pull.)*
 
-No setup is needed on B: `synchronize` creates `/var/www/html/mc-cea` on the first run,
+No setup is needed on B: `synchronize` creates `/var/www/html` on the first run,
 and you connect as `root`, so permissions already work.
 
 ## Every deploy
@@ -52,10 +52,10 @@ and you connect as `root`, so permissions already work.
 
    ```
    1/2  git pull origin main        (only if the folder is a git clone - skipped otherwise)
-   2/2  WinSCP  synchronize remote  ->  /var/www/html/mc-cea
+   2/2  WinSCP  synchronize remote  ->  /var/www/html
    ```
 
-2. **Check** from A: <http://B-HOST/mc-cea/>.
+2. **Check** from A: <http://B-HOST/>.
 
 > If the script reports the session is missing, it is almost always step 2 of the
 > one-time setup above. The full WinSCP log lands in `%TEMP%\mc-cea-deploy.log`.
