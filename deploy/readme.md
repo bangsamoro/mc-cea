@@ -26,23 +26,36 @@ Steps 2 and 3 are what `deploy-mc-cea.bat` does in one double-click.
 ## One-time setup on C
 
 1. **WinSCP** installed (default path `C:\Program Files (x86)\WinSCP\`).
-2. **Save a session named exactly `B`**: open WinSCP → *New Session* → **SFTP**,
-   host `B-HOST`, port `22`, your SSH user, then *Save* as `B`.
-   Log in once and tick *Save password*, so both the host key and the credentials are cached - after that the script runs unattended. `deploy.winscp.txt` opens `open B`;
-   if your session has another name, either rename it or swap that line for the
-   explicit `open sftp://root@B-HOST/ -hostkey="..."` form in the comment.
-3. **Clone the site onto C** into `C:\Users\DELL\MCCEA`:
+
+2. **Tell the kit how to reach B.** Either way works - the launcher prefers the
+   local file and falls back to the saved session.
+
+   **A. A local connection file** (no WinSCP GUI needed):
 
    ```bat
-   git clone https://github.com/bangsamoro/mc-cea C:\Users\DELL\MCCEA
+   echo sftp://root@B-HOST/> "C:\Users\DELL\MCCEA\deploy\connection.local.txt"
    ```
 
-   The repo is **public**, so the clone needs no credentials — C pulls anonymously.
-   *(Fallback, if C ever loses GitHub access: copy `mc-cea-site.zip` from A over RDP and
-   extract it into the same folder. The `.bat` then simply skips the pull.)*
+   Change `root` if you connect as a different user. The file holds one line,
+   may be a URL *or* a saved-session name, and is **git-ignored** - so the real
+   address never reaches GitHub.
 
-No setup is needed on B: `synchronize` creates `/var/www/html` on the first run,
-and you connect as `root`, so permissions already work.
+   **B. A saved WinSCP session** - open WinSCP, *New Session*: **SFTP**, host
+   `B-HOST`, port `22`, your SSH user, then *Save* and name it **exactly `B`**.
+   Log in once and tick *Save password*.
+
+   To see which sessions already exist:
+
+   ```bat
+   reg query "HKCU\Software\Martin Prikryl\WinSCP 2\Sessions"
+   ```
+
+3. **Accept B's host key once.** If WinSCP has never connected to B from this
+   machine, connect once in the GUI and accept the key. After that the script
+   runs unattended.
+
+No setup is needed on B: the docroot already exists and you connect as `root`,
+so permissions already work.
 
 ## Every deploy
 

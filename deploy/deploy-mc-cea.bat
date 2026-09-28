@@ -2,22 +2,30 @@
 REM ===================================================================
 REM  Publish MC-CEA   C  ->  B   over SFTP
 REM
-REM  Run this ON C (RDP in from A). It mirrors the site folder into
-REM  B's DOCROOT so the portal becomes the site home page.
+REM  Run this ON C. It mirrors the site folder into B's DOCROOT so the
+REM  portal becomes the site home page.
 REM
-REM  Where is the site?  By default: the folder this script lives in,
-REM  i.e. <site>\deploy\deploy-mc-cea.bat  ->  <site>.  Override with:
+REM  How it reaches B:  deploy\connection.local.txt, if it exists,
+REM  holds one line with the connection - either a saved WinSCP session
+REM  name or a URL:
+REM        B
+REM        sftp://root@B-HOST/
+REM  Without that file it falls back to the saved session named "B".
+REM
+REM  Where is the site?  By default the folder this script lives in,
+REM  i.e. <site>\deploy\deploy-mc-cea.bat -> <site>. Override with:
 REM      deploy-mc-cea.bat D:\sites\mc-cea
-REM
-REM  Connection: the WinSCP saved session named "B" (see deploy\readme.md).
-REM  /ini=nul is deliberately NOT passed - with it WinSCP ignores saved
-REM  sessions and "open B" degrades to a hostname lookup.
 REM ===================================================================
 
 set "WINSCP=C:\Program Files (x86)\WinSCP\WinSCP.com"
 
 set "SITE=%~1"
 if "%SITE%"=="" for %%I in ("%~dp0..") do set "SITE=%%~fI"
+
+REM --- which connection? -------------------------------------------------
+set "CONN=B"
+if exist "%~dp0connection.local.txt" for /f "usebackq delims=" %%L in ("%~dp0connection.local.txt") do if not "%%L"=="" set "CONN=%%L"
+if "%CONN%"=="" set "CONN=B"
 
 if not exist "%WINSCP%" (
   echo [!] WinSCP.com not found at "%WINSCP%"
@@ -31,7 +39,8 @@ if not exist "%SITE%\index.html" (
   pause & exit /b 1
 )
 
-echo Site folder: %SITE%
+echo Site folder : %SITE%
+echo Connecting  : %CONN%
 
 REM --- 1/2  refresh from GitHub, if this folder is a git clone -----------
 if exist "%SITE%\.git" (
@@ -46,7 +55,7 @@ if exist "%SITE%\.git" (
 REM --- 2/2  SFTP the folder up to B -------------------------------------
 echo.
 echo === 2/2  WinSCP synchronize  -^>  B:/var/www/html  (docroot) ===
-"%WINSCP%" /log="%TEMP%\mc-cea-deploy.log" /script="%SITE%\deploy\deploy.winscp.txt" /parameter // "%SITE%"
+"%WINSCP%" /log="%TEMP%\mc-cea-deploy.log" /script="%SITE%\deploy\deploy.winscp.txt" /parameter // "%SITE%" "%CONN%"
 set RC=%ERRORLEVEL%
 
 echo.
@@ -54,17 +63,18 @@ if "%RC%"=="0" (
   echo Deploy OK  -^>  the portal is now B's home page.
   echo ifr\, tag\ and phpmyadmin\ were left alone.
 ) else (
-  echo [!] WinSCP exited with code %RC%  ^(log: %TEMP%\mc-cea-deploy.log^)
+  echo [!] WinSCP exited with code %RC%   log: %TEMP%\mc-cea-deploy.log
   echo.
-  echo     "Host 'B' does not exist." or "session B not found"
-  echo       -^> the saved WinSCP session named B has not been created yet.
-  echo          Open WinSCP, New Session: SFTP, B's host, port 22, your user,
-  echo          Save AS EXACTLY B, tick "Save password", log in once.
+  echo     "Looking up host" / "Host does not exist"
+  echo       -^> the connection could not be resolved. Create deploy\connection.local.txt
+  echo          with one line, e.g.   sftp://root@B-HOST/
+  echo          (or create a saved WinSCP session named exactly B).
   echo.
   echo     "Authentication failed" or a password prompt
-  echo       -^> open that saved session in the WinSCP GUI once and tick
-  echo          "Save password" so the script can run unattended.
+  echo       -^> open that host/session in the WinSCP GUI once and tick
+  echo          "Save password".
   echo.
-  echo     Full log: %TEMP%\mc-cea-deploy.log
+  echo     "Unknown host key" or a host key dialog
+  echo       -^> connect once in the WinSCP GUI and accept the key.
 )
 pause

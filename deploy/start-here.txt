@@ -11,38 +11,47 @@ and goes live at   http://B-HOST/   (inside KSU only).
 
 1. WinSCP must be installed (C:\Program Files (x86)\WinSCP\).
 
-2. Save a session named exactly:  B
+2. Tell the kit how to reach B. Pick ONE:
 
-     Open WinSCP  ->  New Session
-       File protocol : SFTP        (or FTP, whichever you use)
-       Host name     : B-HOST
-       Port number   : 22          (21 if you use plain FTP)
-       User name     : your SSH/FTP user
-     ->  Save  ->  name it  B  ->  Log in once, tick "Save
-         password" so the host key and password are cached,
-         then close.
+   A) a local connection file - no GUI needed. Run:
 
-   The protocol and port come from that saved session, so the
-   script below works with SFTP or FTP without any edit.
+        echo sftp://root@B-HOST/> "C:\Users\DELL\MCCEA\deploy\connection.local.txt"
+
+      (change "root" if your SSH user differs; the file is
+       git-ignored, so the address stays off GitHub)
+
+   B) a saved WinSCP session - open WinSCP, New Session:
+        protocol SFTP, host B-HOST, port 22, your user
+        -> Save -> name it exactly:  B
+        -> log in once, ticking "Save password"
+
+   See what sessions you already have:
+
+        reg query "HKCU\Software\Martin Prikryl\WinSCP 2\Sessions"
+
+3. If WinSCP has never connected to B from this machine,
+   connect once in the GUI and accept the host key.
 
 --- every deploy -------------------------------------------
 
-   git pull        (if this folder is a clone - it fetches the
-                    latest files from GitHub)
-   Double-click:   deploy\deploy-mc-cea.bat
+   git pull
+   deploy\deploy-mc-cea.bat
 
-   It uploads this folder into B's docroot /var/www/html, which
-   replaces the old home page and adds css\, img\ and services\.
-   Nothing else in the docroot is deleted or touched - ifr\,
-   tag\ and phpmyadmin\ live there too and stay as they are.
+   It prints "Connecting :" first, so you can see which
+   connection it picked, then uploads this folder into B's
+   docroot /var/www/html. Nothing else there is deleted -
+   ifr\, tag\ and phpmyadmin\ stay exactly as they are.
 
 --- if something goes wrong ---------------------------------
 
-   Full WinSCP log:   %TEMP%\mc-cea-deploy.log
+   Log:  %TEMP%\mc-cea-deploy.log
 
-   "session B not found"  -> do step 2 above.
-   "No index.html found"  -> you extracted the zip somewhere else.
-                             Run: deploy-mc-cea.bat D:\your\folder
+   "Looking up host" / "Host does not exist"
+        -> no connection file and no saved session B. Do step 2.
+   "Authentication failed" / password prompt
+        -> save the password in the WinSCP session.
+   "No index.html found"
+        -> wrong folder. Run: deploy-mc-cea.bat D:\your\folder
 
 --- what does NOT get uploaded ------------------------------
 

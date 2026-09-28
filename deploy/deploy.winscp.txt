@@ -1,43 +1,41 @@
-# WinSCP script — publish the MC-CEA portal from C to B.
+# WinSCP script - publish the MC-CEA portal from C to B.
 #
-# Run from C (deploy-mc-cea.bat does this for you):
+# Normally run by deploy-mc-cea.bat, which passes two parameters:
+#   %1%  the local folder to publish (the one holding index.html)
+#   %2%  how to reach B - EITHER the name of a saved WinSCP session
+#        (default "B"), OR a full connection URL such as
+#        sftp://root@B-HOST/
+#
+# Called by hand:
 #   "C:\Program Files (x86)\WinSCP\WinSCP.com" ^
-#       /script="deploy\deploy.winscp.txt" /parameter // "C:\Users\DELL\MCCEA"
+#       /script="deploy\deploy.winscp.txt" /parameter // "C:\Users\DELL\MCCEA" "B"
 #
-# NOTE: do not add /ini=nul - with it WinSCP ignores saved sessions and
-#       "open B" below degrades into a hostname lookup.
-#
-# %1% = the local folder to publish (the one holding index.html).
-#
-# TARGET = B's docroot, so the portal *is* the site home page:
-#   http://B-HOST/
-# The same docroot also holds other applications in their own subfolders
-# (ifr/, tag/, phpmyadmin/). This script never deletes anything, so they are
-# untouched — it only writes the files listed at the bottom.
+# NOTE: do NOT add /ini=nul. With it WinSCP ignores saved sessions and the
+#       connection string below degrades into a hostname lookup.
 
 option batch abort
 option confirm off
 option transfer binary
 
 # --- connect --------------------------------------------------------------
-# Saved WinSCP session for B. Name it exactly "B" once in the WinSCP GUI
-# (New session -> SFTP, host B-HOST, port 22, your SSH user, then Save as "B"
-# and log in once so the host key is cached). Then this line just works.
-open B
+# %2% is either a saved session name or a URL - WinSCP accepts both.
+open "%2%"
 
-# Explicit alternative — replace the "open B" line above with this one
-# (connect once in the GUI first, or paste B's real fingerprint):
-# open sftp://<user>@B-HOST/ -hostkey="ssh-ed25519 256 xx:xx:..."
+# If you ever want it hard-coded, this is the form (connect once first so the
+# host key is cached, or paste B's real fingerprint):
+# open sftp://root@B-HOST/ -hostkey="ssh-ed25519 256 xx:xx:..."
 
 # --- push -----------------------------------------------------------------
-# Mirror %1% into the docroot. It already exists, so there is no mkdir step.
+# Mirror %1% into B's docroot, so the portal *is* the site home page.
+# The docroot already exists, so there is no mkdir step.
 #
 # NOTE: "-delete" is deliberately NOT used. It would remove files on B that
-# are not in the local folder — which at the docroot means the other
-# applications. Add it only if you know exactly what else lives there:
+# are not in the local folder - which at the docroot means the other
+# applications (ifr/, tag/, phpmyadmin/). Add it only if you know exactly
+# what else lives there:
 #     synchronize remote -delete -criteria=time -- ...
 #
-# Filemask — what is NOT uploaded:
+# Filemask - what is NOT uploaded:
 #   .htaccess ..... the docroot may already have one, and ours would cascade
 #                   over ifr/ and tag/. Nothing sensitive is uploaded, so the
 #                   portal does not need it.

@@ -8,6 +8,9 @@
 # Deploy kit and project README ARE tracked: they carry no secrets - the
 # production box's address lives in the WinSCP saved session "B" on C, not here.
 
+# Local, machine-specific connection details - never committed
+deploy/connection.local.txt
+
 # Runtime / local scratch
 *.log
 /.openclaw/
