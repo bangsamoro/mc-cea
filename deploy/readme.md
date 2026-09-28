@@ -28,7 +28,7 @@ Steps 2 and 3 are what `deploy-mc-cea.bat` does in one double-click.
 1. **WinSCP** installed (default path `C:\Program Files (x86)\WinSCP\`).
 2. **Save a session named exactly `B`**: open WinSCP → *New Session* → **SFTP**,
    host `B-HOST`, port `22`, your SSH user, then *Save* as `B`.
-   Log in once so the host key gets cached. `deploy.winscp.txt` opens `open B`;
+   Log in once and tick *Save password*, so both the host key and the credentials are cached - after that the script runs unattended. `deploy.winscp.txt` opens `open B`;
    if your session has another name, either rename it or swap that line for the
    explicit `open sftp://root@B-HOST/ -hostkey="..."` form in the comment.
 3. **Clone the site onto C** into `C:\Users\DELL\MCCEA`:
@@ -57,7 +57,7 @@ and you connect as `root`, so permissions already work.
 
 2. **Check** from A: <http://B-HOST/>.
 
-> If the script reports the session is missing, it is almost always step 2 of the
+> If WinSCP says 'Host "B" does not exist.', the saved session has not been created - that is step 2 of the
 > one-time setup above. The full WinSCP log lands in `%TEMP%\mc-cea-deploy.log`.
 
 ## What is uploaded

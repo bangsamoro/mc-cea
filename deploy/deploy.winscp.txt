@@ -1,8 +1,11 @@
 # WinSCP script — publish the MC-CEA portal from C to B.
 #
 # Run from C (deploy-mc-cea.bat does this for you):
-#   "C:\Program Files (x86)\WinSCP\WinSCP.com" /ini=nul ^
+#   "C:\Program Files (x86)\WinSCP\WinSCP.com" ^
 #       /script="deploy\deploy.winscp.txt" /parameter // "C:\Users\DELL\MCCEA"
+#
+# NOTE: do not add /ini=nul - with it WinSCP ignores saved sessions and
+#       "open B" below degrades into a hostname lookup.
 #
 # %1% = the local folder to publish (the one holding index.html).
 #

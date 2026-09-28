@@ -18,8 +18,9 @@ and goes live at   http://B-HOST/   (inside KSU only).
        Host name     : B-HOST
        Port number   : 22          (21 if you use plain FTP)
        User name     : your SSH/FTP user
-     ->  Save  ->  name it  B  ->  Log in once so the host key
-         gets cached, then close.
+     ->  Save  ->  name it  B  ->  Log in once, tick "Save
+         password" so the host key and password are cached,
+         then close.
 
    The protocol and port come from that saved session, so the
    script below works with SFTP or FTP without any edit.
