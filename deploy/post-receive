@@ -1,0 +1,33 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------
+# MC-CEA - deploy hook (B)
+#
+# Installed as /var/www/mc-cea.git/hooks/post-receive (chmod +x).
+# Every `git push production main` from C then checks the site out into the
+# web root, so a deploy is a single push - no manual SSH step.
+#
+# One-time setup is done by deploy/setup-b.sh, which writes this file.
+# ---------------------------------------------------------------------------
+set -e
+
+WEB="/var/www/html/mc-cea"
+GIT_DIR="/var/www/mc-cea.git"
+BRANCH="main"
+
+export GIT_DIR
+export GIT_WORK_TREE="$WEB"
+
+mkdir -p "$WEB"
+
+# Hard reset the work tree to the pushed branch
+git checkout -f "$BRANCH"
+
+# Remove files that were deleted from the repo. Never touch anything the
+# server owns itself (logs, ACME challenges, uploaded media).
+git clean -fd -e '*.log' -e '.well-known' >/dev/null 2>&1 || true
+
+# www-data must be able to read the files
+chmod -R a+rX "$WEB" 2>/dev/null || true
+
+echo "MC-CEA: checked out $BRANCH into $WEB at $(date '+%Y-%m-%d %H:%M:%S')"
+echo "MC-CEA: live at https://mc-cea.ksu.edu.sa/mc-cea/"

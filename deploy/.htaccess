@@ -1,0 +1,5 @@
+# Deploy scripts are never served (post-receive has no extension, so the
+# parent .htaccess FilesMatch rules would not catch it).
+<FilesMatch ".*">
+    Require all denied
+</FilesMatch>

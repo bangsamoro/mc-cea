@@ -1,0 +1,99 @@
+# Deploy MC-CEA — A → GitHub → C → B
+
+**A** (dev, `C:\xampp\htdocs\cea`) → `git push` → **GitHub** (`bangsamoro/mc-cea`) →
+`git pull` → **C** (Windows, WinSCP) → **B** (`B-HOST`, Ubuntu/Apache, `/var/www/html/mc-cea`).
+
+Live URL: **<https://mc-cea.ksu.edu.sa/mc-cea/>** (inside KSU only).
+LAN check: <http://B-HOST/mc-cea/>.
+
+A **cannot** reach B or C except over RDP (verified: B ports 21/22/989/990 are closed from A, C port
+22 is closed), so the upload always runs **on C**. C is the only box with a route to B.
+
+The site has **no build step** — publishing is just copying files.
+
+---
+
+## The workflow
+
+| Step | Where | What |
+|---|---|---|
+| 1 | **A** | edit in `C:\xampp\htdocs\cea`, preview at <http://localhost/cea/>, then `git push origin main` |
+| 2 | **C** | `git pull origin main` in the clone (`C:\Users\DELL\MCCEA`) |
+| 3 | **C** | run `deploy\deploy-mc-cea.bat` → WinSCP mirrors the folder into `/var/www/html/mc-cea` on B |
+
+Steps 2 and 3 are what `deploy-mc-cea.bat` does in one double-click.
+
+## One-time setup on C
+
+1. **WinSCP** installed (default path `C:\Program Files (x86)\WinSCP\`).
+2. **Save a session named exactly `B`**: open WinSCP → *New Session* → **SFTP**,
+   host `B-HOST`, port `22`, your SSH user, then *Save* as `B`.
+   Log in once so the host key gets cached. `deploy.winscp.txt` opens `open B`;
+   if your session has another name, either rename it or swap that line for the
+   explicit `open sftp://root@B-HOST/ -hostkey="..."` form in the comment.
+3. **Clone the site onto C** into `C:\Users\DELL\MCCEA`:
+
+   ```bat
+   git clone https://github.com/bangsamoro/mc-cea C:\Users\DELL\MCCEA
+   ```
+
+   The repo is **public**, so the clone needs no credentials — C pulls anonymously.
+   *(Fallback, if C ever loses GitHub access: copy `mc-cea-site.zip` from A over RDP and
+   extract it into the same folder. The `.bat` then simply skips the pull.)*
+
+No setup is needed on B: `synchronize` creates `/var/www/html/mc-cea` on the first run,
+and you connect as `root`, so permissions already work.
+
+## Every deploy
+
+0. **On A:** `git push origin main` (the repo is the only channel from A).
+1. **On C:** double-click **`deploy\deploy-mc-cea.bat`** — or pass a folder:
+   `deploy-mc-cea.bat D:\sites\mc-cea`. It does:
+
+   ```
+   1/2  git pull origin main        (only if the folder is a git clone - skipped otherwise)
+   2/2  WinSCP  synchronize remote  ->  /var/www/html/mc-cea
+   ```
+
+2. **Check** from A: <http://B-HOST/mc-cea/>.
+
+> If the script reports the session is missing, it is almost always step 2 of the
+> one-time setup above. The full WinSCP log lands in `%TEMP%\mc-cea-deploy.log`.
+
+## What is uploaded
+
+Everything in the site folder **except** the dev-only material, which the script's
+filemask keeps off the server:
+
+| Skipped | Why |
+|---|---|
+| `.git/`, `.gitignore`, `.gitattributes` | version control, not content |
+| `*.md` | the runbook and README (they name internal hosts and paths) |
+| `deploy/` | WinSCP scripts and the deploy log |
+| `preview/` | local screenshots |
+| `assets/` | empty leftover from before the `css/` + `img/` split |
+| `*.log` | runtime junk |
+
+Uploaded, and wanted on B: `index.html`, `css/`, `img/`, `services/`, and
+**`.htaccess`** — that last one is what stops Apache from serving `.md` / `.sh` /
+`.bat` / dotfiles if anything ever does land there.
+
+## Notes
+
+- **No `-delete`.** The script overwrites changed files but never removes files on B
+  that are missing locally. If you want the remote folder to mirror the local one
+  exactly (so a deleted page disappears from B too), add `-delete` to the
+  `synchronize` line — it is commented in `deploy.winscp.txt` with the exact syntax.
+- **Timestamps.** `synchronize -criteria=time` compares file times, and WinSCP
+  preserves them by default — leave that on.
+- **`.htaccess` needs `AllowOverride`.** If Apache has overrides off, the deny rules
+  are silently ignored (the site still works, the files are just public). Check on B
+  over SSH and either enable overrides or put the same rules in the vhost. On A's
+  XAMPP it is confirmed **on**: `http://localhost/cea/readme.md` returns 403.
+- **Cache.** Static files, no service worker, no cache-busting needed. A hard refresh
+  (Ctrl-F5) is enough if the browser holds on to the old page.
+- Only `index.html`, `css/style.css` and `img/ksumc-logo.png` matter for the home page.
+  Editing the site means touching those (plus `css/service.css` and `services/*.html`
+  once the detail pages exist).
+- **Pushing from A is the only way changes leave A.** The site folder on C is a clone,
+  so editing files on C directly would be overwritten by the next `git pull`.

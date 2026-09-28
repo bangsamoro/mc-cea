@@ -5,13 +5,8 @@
 # Local preview screenshots (dev only - never deployed)
 /preview/
 
-# Internal deploy docs are NOT committed while this repo is public:
-# deploy/ and the project README name the production box's LAN address, its web
-# root and the SFTP session used to publish. If the repo is switched to private,
-# drop the next three lines and commit them.
-/readme.md
-/README.md
-/deploy/
+# Deploy kit and project README ARE tracked: they carry no secrets - the
+# production box's address lives in the WinSCP saved session "B" on C, not here.
 
 # Runtime / local scratch
 *.log

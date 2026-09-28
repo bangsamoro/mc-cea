@@ -1,0 +1,51 @@
+===========================================================
+ MC-CEA  -  publish to B   (quick start, read this on C)
+===========================================================
+
+You are on the C box. Everything you need is in this folder.
+
+--- one time only -----------------------------------------
+
+1. WinSCP must be installed (C:\Program Files (x86)\WinSCP\).
+
+2. Save a session named exactly:  B
+
+     Open WinSCP  ->  New Session
+       File protocol : SFTP        (or FTP, whichever you use)
+       Host name     : B-HOST
+       Port number   : 22          (21 if you use plain FTP)
+       User name     : your SSH/FTP user
+     ->  Save  ->  name it  B  ->  Log in once so the host key
+         gets cached, then close.
+
+   The protocol and port come from that saved session, so the
+   script below works with SFTP or FTP without any edit.
+
+--- every deploy -------------------------------------------
+
+   Double-click:   deploy\deploy-mc-cea.bat
+
+   It uploads this folder to  /var/www/html/mc-cea  on B.
+   First run creates that folder.
+
+   Then check, from A:
+       http://B-HOST/mc-cea/
+       https://mc-cea.ksu.edu.sa/mc-cea/
+
+--- if something goes wrong ---------------------------------
+
+   Full WinSCP log:   %TEMP%\mc-cea-deploy.log
+
+   "session B not found"  -> do step 2 above.
+   "No index.html found"  -> you extracted the zip somewhere else.
+                             Run: deploy-mc-cea.bat D:\your\folder
+
+--- what does NOT get uploaded ------------------------------
+
+   deploy\   preview\   assets\   *.md   .git*   *.log
+
+   Only index.html, css\, img\ and services\ go up. .htaccess goes
+   up too - it is what stops Apache serving those skipped files
+   if they ever land on B.
+
+Full details: deploy\readme.md
