@@ -15,6 +15,10 @@ REM
 REM  Where is the site?  By default the folder this script lives in,
 REM  i.e. <site>\deploy\deploy-mc-cea.bat -> <site>. Override with:
 REM      deploy-mc-cea.bat D:\sites\mc-cea
+REM
+REM  NB: keep every echo below free of parentheses. Inside an if-block
+REM      an unescaped bracket ends the block and cmd reports
+REM      ". was unexpected at this time".
 REM ===================================================================
 
 set "WINSCP=C:\Program Files (x86)\WinSCP\WinSCP.com"
@@ -54,27 +58,29 @@ if exist "%SITE%\.git" (
 
 REM --- 2/2  SFTP the folder up to B -------------------------------------
 echo.
-echo === 2/2  WinSCP synchronize  -^>  B:/var/www/html  (docroot) ===
+echo === 2/2  WinSCP synchronize  -^>  B:/var/www/html  [docroot] ===
 "%WINSCP%" /log="%TEMP%\mc-cea-deploy.log" /script="%SITE%\deploy\deploy.winscp.txt" /parameter // "%SITE%" "%CONN%"
 set RC=%ERRORLEVEL%
 
 echo.
 if "%RC%"=="0" (
   echo Deploy OK  -^>  the portal is now B's home page.
-  echo ifr\, tag\ and phpmyadmin\ were left alone.
+  echo ifr, tag and phpmyadmin were left alone.
 ) else (
-  echo [!] WinSCP exited with code %RC%   log: %TEMP%\mc-cea-deploy.log
+  echo [!] WinSCP exited with code %RC%   -   log: %TEMP%\mc-cea-deploy.log
   echo.
-  echo     "Looking up host" / "Host does not exist"
-  echo       -^> the connection could not be resolved. Create deploy\connection.local.txt
-  echo          with one line, e.g.   sftp://root@B-HOST/
-  echo          (or create a saved WinSCP session named exactly B).
+  echo     "Looking up host" or "Host does not exist"
+  echo        -^> connection not resolved. Create deploy\connection.local.txt
+  echo           holding one line, for example   sftp://root@B-HOST/
+  echo           or create a saved WinSCP session named exactly B.
   echo.
   echo     "Authentication failed" or a password prompt
-  echo       -^> open that host/session in the WinSCP GUI once and tick
-  echo          "Save password".
+  echo        -^> open that host in the WinSCP GUI once, tick "Save password".
+  echo.
+  echo     "Too many parameters for command synchronize"
+  echo        -^> deploy\deploy.winscp.txt is out of date. Run git pull.
   echo.
   echo     "Unknown host key" or a host key dialog
-  echo       -^> connect once in the WinSCP GUI and accept the key.
+  echo        -^> connect once via the WinSCP GUI and accept the key.
 )
 pause

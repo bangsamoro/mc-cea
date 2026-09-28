@@ -11,7 +11,7 @@
 #       /script="deploy\deploy.winscp.txt" /parameter // "C:\Users\DELL\MCCEA" "B"
 #
 # NOTE: do NOT add /ini=nul. With it WinSCP ignores saved sessions and the
-#       connection string below degrades into a hostname lookup.
+#       connection below degrades into a hostname lookup.
 
 option batch abort
 option confirm off
@@ -26,20 +26,24 @@ open "%2%"
 # open sftp://root@B-HOST/ -hostkey="ssh-ed25519 256 xx:xx:..."
 
 # --- push -----------------------------------------------------------------
-# Mirror %1% into B's docroot, so the portal *is* the site home page.
-# The docroot already exists, so there is no mkdir step.
+# Mirror the local folder into B's docroot, so the portal *is* the site home
+# page. The docroot already exists, so there is no mkdir step.
 #
-# NOTE: "-delete" is deliberately NOT used. It would remove files on B that
-# are not in the local folder - which at the docroot means the other
-# applications (ifr/, tag/, phpmyadmin/). Add it only if you know exactly
-# what else lives there:
-#     synchronize remote -delete -criteria=time -- ...
+# WinSCP syntax (see 'help synchronize'):
+#     synchronize local|remote|both [<local dir> [<remote dir>]] [switches]
+# Note there is NO "--" separator - adding one counts as an extra directory
+# and fails with "Too many parameters for command 'synchronize'".
 #
-# Filemask - what is NOT uploaded:
+# "-delete" is deliberately NOT used. It would remove files on B that are not
+# in the local folder - at the docroot that means the other applications
+# (ifr/, tag/, phpmyadmin/). Add it only if you know exactly what else lives
+# there.
+#
+# The mask has NO spaces: everything after "|" is the exclude list.
 #   .htaccess ..... the docroot may already have one, and ours would cascade
 #                   over ifr/ and tag/. Nothing sensitive is uploaded, so the
 #                   portal does not need it.
 #   .git*, *.md, deploy/, preview/, assets/, *.log ... dev-only material
-synchronize remote -criteria=time -- "%1%" "/var/www/html" -filemask="| .htaccess; .git/; .gitignore; .gitattributes; *.md; deploy/; preview/; assets/; *.log"
+synchronize remote "%1%" "/var/www/html" -criteria=time -filemask="|.htaccess;.git/;.gitignore;.gitattributes;*.md;deploy/;preview/;assets/;*.log"
 
 exit
