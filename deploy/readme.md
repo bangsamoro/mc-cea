@@ -105,6 +105,12 @@ Uploaded, and wanted on B: `index.html`, `css/`, `img/`, `services/`, and
   XAMPP it is confirmed **on**: `http://localhost/cea/readme.md` returns 403.
 - **Cache.** Static files, no service worker, no cache-busting needed. A hard refresh
   (Ctrl-F5) is enough if the browser holds on to the old page.
+- **Install / home screen (PWA).** `manifest.json` + `sw.js` + `js/pwa.js` make the portal
+  installable, and a first-time visitor gets a one-off bar offering to install it. **Installing
+  only works over https://** - browsers refuse to install, and refuse to register a service
+  worker, on an insecure origin. So it works at the `https://` address and not at
+  `http://B-HOST/`; on the plain-http address the bar says so instead of failing silently.
+  The service worker caches the shell network-first, so a deploy is picked up on the next load.
 - Only `index.html`, `css/style.css` and `img/ksumc-logo.png` matter for the home page.
   Editing the site means touching those (plus `css/service.css` and `services/*.html`
   once the detail pages exist).

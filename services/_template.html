@@ -10,6 +10,13 @@
 <link rel="icon" href="../img/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 
+<!-- installable app (PWA) -->
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#0084BD">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MC-CEA">
+
 
 <!-- fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +71,9 @@
     <a class="btn" href="mailto:ens-support@ksumc.edu.sa"><i class="fa-solid fa-ticket" aria-hidden="true"></i>Open a ticket</a>
   </div>
 </main>
+
+<!-- install prompt: first visit only -->
+<script src="../js/pwa.js" defer></script>
 
 </body>
 </html>
