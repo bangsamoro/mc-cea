@@ -73,6 +73,7 @@ No build step, no dependencies — plain HTML + CSS.
 | 10 | UI/UX pass | Hero → `Welcome to the Services Platform of the Corporate Engineering Affairs`; section heading → `MC-CEA Services and Links`; first three cards replaced (see below). |
 | 11 | CTA rework | Heading → `CORPORATE ENGINEERING AFFAIRS`; `Open a ticket` (mailto) → **Open MAXIMO** → the Maximo web client in a new tab; `Call support` → `Contact CEA` (still dials `+966114675000`). |
 | 12 | Cards 4-6 replaced | Technical Support -> Report Untagged Devices; Monitoring Analytics -> CEA System Evaluation; Integration Services -> IFR Report System. All three hrefs renamed to match their new titles (still placeholder pages). |
+| 13 | Cards 7-8 added | **DIWAN Power BI Dashboard** (Power BI dashboard link) + **HEPA Filter Schedules** (CEA SharePoint list). |
 | — | Encoding repair | Mojibake (`â€”`, `Â©`) fixed to `—` and `©`. The file was double-encoded UTF-8. |
 | — | File size | 8 byte-identical base64 logos (2.4 MB) → 1 shared PNG. Page weight down **94 %**. |
 
@@ -86,6 +87,8 @@ No build step, no dependencies — plain HTML + CSS.
 | 4 | Report Untagged Devices | `fa-camera` | `services/report-untagged-devices.html` — page not written yet |
 | 5 | CEA System Evaluation | `fa-gears` | `services/cea-system-evaluation.html` — page not written yet |
 | 6 | IFR Report System | `fa-triangle-exclamation` | `services/ifr-report-system.html` — page not written yet |
+| 7 | DIWAN Power BI Dashboard | `fa-chart-column` | Power BI dashboard link *(new tab)* |
+| 8 | HEPA Filter Schedules | `fa-wind` | `https://ksusa.sharepoint.com/sites/CEA/Lists/HEPA 101/AllItems.aspx` *(new tab)* |
 
 ## How to customise
 
