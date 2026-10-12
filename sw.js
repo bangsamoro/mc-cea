@@ -8,7 +8,7 @@
    discard everything clients have cached.
    --------------------------------------------------------------------------- */
 
-var CACHE = 'mc-cea-v1';
+var CACHE = 'mc-cea-v2';
 
 var SHELL = [
   './',

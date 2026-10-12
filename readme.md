@@ -12,7 +12,7 @@ styles and images split out — **149 KB total**.
 | `index.html` | The page markup only (6.7 KB). No `<style>` block. |
 | `css/style.css` | All home-page styles. Re-skin the site from the `:root` tokens at the top. |
 | `css/service.css` | Styles for the service detail pages. |
-| `img/ksumc-logo.png` | The MC-CEA services-portal badge (512×512, rebuilt as a clean transparent PNG). |
+| `img/ksumc-logo.png` | The CEA crest — KSU shield (palm & crossed swords) + safety helmet + gear, rebuilt as a clean transparent PNG from the management-approved artwork. |
 | `services/_template.html` | Detail-page template — copy, rename, edit the marked lines. |
 | `services/*.html` | Not created yet — the six card links point here. |
 | `preview/desktop.png`, `preview/mobile.png` | Rendered screenshots (1440 px / 414 px). |
@@ -74,6 +74,7 @@ No build step, no dependencies — plain HTML + CSS.
 | 11 | CTA rework | Heading → `CORPORATE ENGINEERING AFFAIRS`; `Open a ticket` (mailto) → **Open MAXIMO** → the Maximo web client in a new tab; `Call support` → `Contact CEA` (still dials `+966114675000`). |
 | 12 | Cards 4-6 replaced | Technical Support -> Report Untagged Devices; Monitoring Analytics -> CEA System Evaluation; Integration Services -> IFR Report System. All three hrefs renamed to match their new titles (still placeholder pages). |
 | 13 | Cards 7-8 added | **DIWAN Power BI Dashboard** (Power BI dashboard link) + **HEPA Filter Schedules** (CEA SharePoint list). |
+| 14 | New CEA logo | Management-approved emblem (shield + palm/swords + safety helmet + gear) replaces the old MC-CEA disc across header, hero, CTA, footer, watermarks — plus all browser/PWA icons and the favicon. |
 | — | Encoding repair | Mojibake (`â€”`, `Â©`) fixed to `—` and `©`. The file was double-encoded UTF-8. |
 | — | File size | 8 byte-identical base64 logos (2.4 MB) → 1 shared PNG. Page weight down **94 %**. |
 
@@ -130,6 +131,10 @@ The template already uses correct relative paths (`../img/…`, `../css/service.
 - The faint background watermark still spells `ENS`; say the word and it becomes `MC-CEA`.
 - Reference to the original single-file build: if you need a **self-contained** `index.html`
   (no `css/` or `img/` folder), I can inline both again.
+
+- **Logo source.** The new logo was rebuilt from a supplied JPEG (the emblem was composited over a
+  photo background). If a vector/original file (AI/SVG/PNG) is provided, it can be swapped in for
+  pixel-perfect edges.
 
 ## Deploy — A → GitHub → C → B over SFTP
 

@@ -74,11 +74,9 @@ body {
 }
 .logo-lockup { display: flex; align-items: center; gap: 14px; text-decoration: none; }
 .logo-img {
-  width: 56px; height: 56px;
+  height: 56px; width: auto;
   flex-shrink: 0;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 132, 189, .2);
+  filter: drop-shadow(0 2px 6px rgba(13, 88, 120, .22));
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
 .logo-text .main {
@@ -127,10 +125,8 @@ body {
 .hero-blob-2 { width: 240px; height: 240px; background: rgba(0, 132, 189, .04); bottom: 0; left: -50px; animation-delay: -3s; }
 .hero-logo-wrap { display: flex; justify-content: center; margin-bottom: 28px; position: relative; z-index: 1; }
 .hero-logo {
-  width: 88px; height: 88px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 8px 32px rgba(0, 132, 189, .18);
+  height: 88px; width: auto;
+  filter: drop-shadow(0 10px 22px rgba(13, 88, 120, .28));
   animation: float 5s ease-in-out infinite;
 }
 .hero-badge {
@@ -214,8 +210,8 @@ body {
 .watermark-ens { top: 40px; left: -30px; transform: rotate(-10deg); }
 .watermark-ksumc { bottom: 30px; right: -20px; transform: rotate(8deg); }
 .watermark-logo { position: absolute; z-index: 0; opacity: .04; pointer-events: none; user-select: none; }
-.wm-1 { width: 280px; top: 80px; right: 5%; transform: rotate(15deg); }
-.wm-2 { width: 220px; bottom: 60px; left: 3%; transform: rotate(-12deg); }
+.wm-1 { width: 160px; top: 80px; right: 5%; transform: rotate(15deg); }
+.wm-2 { width: 125px; bottom: 60px; left: 3%; transform: rotate(-12deg); }
 
 .services-grid {
   position: relative;
@@ -288,11 +284,9 @@ body {
 .cta-content h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 700; margin: 0 0 14px; }
 .cta-content p { font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 28px; }
 .cta-logo {
-  width: 72px; height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
+  height: 72px; width: auto;
   margin-bottom: 20px;
-  box-shadow: 0 6px 24px rgba(0, 132, 189, .15);
+  filter: drop-shadow(0 6px 18px rgba(13, 88, 120, .24));
 }
 
 /* ---------- footer ---------- */
@@ -306,17 +300,15 @@ body {
 .footer-watermark {
   position: absolute;
   bottom: 10px; right: 20px;
-  width: 100px;
+  height: 140px; width: auto;
   opacity: .06;
   pointer-events: none;
   user-select: none;
 }
 .footer-top { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; }
 .footer-logo-img {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 2px 10px rgba(0, 132, 189, .15);
+  height: 48px; width: auto;
+  filter: drop-shadow(0 2px 8px rgba(13, 88, 120, .2));
 }
 .footer-brand { text-align: left; }
 .footer-brand .name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
@@ -361,16 +353,16 @@ a:focus-visible,
 /* ---------- responsive ---------- */
 @media (max-width: 640px) {
   .ens-header { padding: 12px 16px; }
-  .logo-img { width: 44px; height: 44px; }
+  .logo-img { height: 44px; width: auto; }
   .logo-text .main { font-size: 20px; }
   .logo-text .sub { font-size: 11px; }
   .nav-links { display: none; }
   .hero { padding: 48px 16px 64px; }
-  .hero-logo { width: 68px; height: 68px; }
+  .hero-logo { height: 68px; width: auto; }
   .services { padding: 40px 16px; }
   .cta-section { padding: 56px 16px; }
   .watermark { font-size: 70px; }
-  .wm-1, .wm-2 { width: 140px; }
+  .wm-1, .wm-2 { width: 80px; }
   .footer-top { flex-direction: column; text-align: center; }
   .footer-brand { text-align: center; }
   .install-bar { flex-wrap: wrap; bottom: 12px; padding: 12px; }
