@@ -74,7 +74,7 @@ body {
 }
 .logo-lockup { display: flex; align-items: center; gap: 14px; text-decoration: none; }
 .logo-img {
-  height: 56px; width: auto;
+  height: 64px; width: auto;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 6px rgba(13, 88, 120, .22));
 }
@@ -125,7 +125,7 @@ body {
 .hero-blob-2 { width: 240px; height: 240px; background: rgba(0, 132, 189, .04); bottom: 0; left: -50px; animation-delay: -3s; }
 .hero-logo-wrap { display: flex; justify-content: center; margin-bottom: 28px; position: relative; z-index: 1; }
 .hero-logo {
-  height: 88px; width: auto;
+  height: 96px; width: auto;
   filter: drop-shadow(0 10px 22px rgba(13, 88, 120, .28));
   animation: float 5s ease-in-out infinite;
 }
@@ -284,7 +284,7 @@ body {
 .cta-content h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 700; margin: 0 0 14px; }
 .cta-content p { font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 28px; }
 .cta-logo {
-  height: 72px; width: auto;
+  height: 80px; width: auto;
   margin-bottom: 20px;
   filter: drop-shadow(0 6px 18px rgba(13, 88, 120, .24));
 }
@@ -307,7 +307,7 @@ body {
 }
 .footer-top { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 16px; }
 .footer-logo-img {
-  height: 48px; width: auto;
+  height: 52px; width: auto;
   filter: drop-shadow(0 2px 8px rgba(13, 88, 120, .2));
 }
 .footer-brand { text-align: left; }
@@ -353,12 +353,12 @@ a:focus-visible,
 /* ---------- responsive ---------- */
 @media (max-width: 640px) {
   .ens-header { padding: 12px 16px; }
-  .logo-img { height: 44px; width: auto; }
+  .logo-img { height: 48px; width: auto; }
   .logo-text .main { font-size: 20px; }
   .logo-text .sub { font-size: 11px; }
   .nav-links { display: none; }
   .hero { padding: 48px 16px 64px; }
-  .hero-logo { height: 68px; width: auto; }
+  .hero-logo { height: 76px; width: auto; }
   .services { padding: 40px 16px; }
   .cta-section { padding: 56px 16px; }
   .watermark { font-size: 70px; }
