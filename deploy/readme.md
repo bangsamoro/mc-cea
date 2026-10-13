@@ -17,7 +17,7 @@ The site has **no build step** — publishing is just copying files.
 
 | Step | Where | What |
 |---|---|---|
-| 1 | **A** | edit in `C:\xampp\htdocs\cea`, preview at <http://localhost/cea/>, then `git push origin main` |
+| 1 | **A** | edit in `C:\xampp\htdocs\cea`, preview at <http://10.139.210.16/cea/>, then `git push origin main` |
 | 2 | **C** | `git pull origin main` in the clone (`C:\Users\DELL\MCCEA`) |
 | 3 | **C** | run `deploy\deploy-mc-cea.bat` → WinSCP mirrors the folder into B's **docroot** (`/var/www/html`), which replaces the old home page |
 
@@ -102,7 +102,7 @@ Uploaded, and wanted on B: `index.html`, `css/`, `img/`, `services/`, and
 - **`.htaccess` needs `AllowOverride`.** If Apache has overrides off, the deny rules
   are silently ignored (the site still works, the files are just public). Check on B
   over SSH and either enable overrides or put the same rules in the vhost. On A's
-  XAMPP it is confirmed **on**: `http://localhost/cea/readme.md` returns 403.
+  XAMPP it is confirmed **on**: `http://10.139.210.16/cea/readme.md` returns 403.
 - **Cache.** Static files, no service worker, no cache-busting needed. A hard refresh
   (Ctrl-F5) is enough if the browser holds on to the old page.
 - **Install / home screen (PWA).** `manifest.json` + `sw.js` + `js/pwa.js` make the portal

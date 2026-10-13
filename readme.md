@@ -45,7 +45,7 @@ written.
 **This project lives at `C:\xampp\htdocs\cea`** — that is the working copy, and it is a git
 repo with the same history as GitHub. XAMPP is already serving it, so there is nothing to copy:
 
-- **Preview:** <http://localhost/cea/> (Apache on this machine).
+- **Preview:** <http://10.139.210.16/cea/> (Apache on this machine).
 - **Any static host:** upload the folder as-is (relative paths only, no build step).
 - **Without XAMPP:** `python -m http.server 8899` inside the folder, then <http://127.0.0.1:8899/>.
 
