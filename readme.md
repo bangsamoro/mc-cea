@@ -76,20 +76,25 @@ No build step, no dependencies — plain HTML + CSS.
 | 13 | Cards 7-8 added | **DIWAN Power BI Dashboard** (Power BI dashboard link) + **HEPA Filter Schedules** (CEA SharePoint list). |
 | 14 | New CEA logo | Management-approved artwork used **as-is** (no edits) across header, hero, CTA, footer and watermarks; layout rules adapted for the portrait lockup; browser/PWA icons + favicon built from the same artwork. |
 | — | Encoding repair | Mojibake (`â€”`, `Â©`) fixed to `—` and `©`. The file was double-encoded UTF-8. |
+| 15 | CERTICEA link card | **CERTICEA — Staff Credentialing and Verification** added as the third card, so it sits in the **top-right** of the 3-column grid; href → <https://mc-cea.ksu.edu.sa/certicea/> (opens in a new tab). |
 | — | File size | 8 byte-identical base64 logos (2.4 MB) → 1 shared PNG. Page weight down **94 %**. |
 
 ### Card set (current)
 
 | # | Card | Icon | Target |
 |---|---|---|---|
-| 1 | MAXIMO EAM (Enterprise Asset Management) system | `fa-screwdriver-wrench` | `http://kksrv-maximo1.ksuhs.edu.sa/maximo/webclient/login/login.jsp` *(new tab)* |
-| 2 | CEA Systems Evaluation | `fa-list-check` | `https://ksusa.sharepoint.com/sites/CEA/Lists/CEASEvaluation/AllItems.aspx` *(new tab)* |
-| 3 | Space Allocation | `fa-building` | `#` — placeholder, still needs a URL |
-| 4 | Report Untagged Devices | `fa-camera` | `services/report-untagged-devices.html` — page not written yet |
-| 5 | CEA System Evaluation | `fa-gears` | `services/cea-system-evaluation.html` — page not written yet |
-| 6 | IFR Report System | `fa-triangle-exclamation` | `services/ifr-report-system.html` — page not written yet |
-| 7 | DIWAN Power BI Dashboard | `fa-chart-column` | Power BI dashboard link *(new tab)* |
-| 8 | HEPA Filter Schedules | `fa-wind` | `https://ksusa.sharepoint.com/sites/CEA/Lists/HEPA 101/AllItems.aspx` *(new tab)* |
+| 1 | MEDICAL EQUIPMENT DECOMMISSIONING ONLINE PROCESSES | `fa-recycle` | CEA SharePoint — decommissioning *(new tab)* |
+| 2 | BME Recalls and Alerts Tracker | `fa-bell` | SharePoint recall tracker *(new tab)* |
+| 3 | CERTICEA — Staff Credentialing and Verification | `fa-id-card` | `https://mc-cea.ksu.edu.sa/certicea/` *(new tab)* |
+| 4 | Procurement of Medical Equipment Portal | `fa-cart-shopping` | `https://mc-cea.ksu.edu.sa/ceapra/` *(new tab)* |
+| 5 | MAXIMO EAM (Enterprise Asset Management) system | `fa-screwdriver-wrench` | Maximo web client *(new tab)* |
+| 6 | MASTERCAP | `fa-clipboard-check` | SharePoint MasterCAP list *(new tab)* |
+| 7 | Report Untagged Devices | `fa-camera` | `https://mc-cea.ksu.edu.sa/tag/` |
+| 8 | CEA Policies and Procedures | `fa-gears` | CEA SharePoint — Policies and Procedures |
+| 9 | IFR Report System | `fa-triangle-exclamation` | `services/ifr-report-system.html` — page not written yet |
+| 10 | DIWAN Power BI Dashboard | `fa-chart-column` | Power BI dashboard *(new tab)* |
+| 11 | HEPA Filter Schedules | `fa-wind` | SharePoint HEPA list *(new tab)* |
+| 12 | CEA Systems Evaluation | `fa-list-check` | SharePoint CEA System Evaluation list *(new tab)* |
 
 ## How to customise
 
