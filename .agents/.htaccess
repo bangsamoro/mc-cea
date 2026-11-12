@@ -1,0 +1,2 @@
+# Internal build guidance — never serve over HTTP.
+Require all denied
